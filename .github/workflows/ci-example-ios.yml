@@ -48,7 +48,7 @@ jobs:
         with:
           working-directory: IapExample
           bundler-cache: true
-          ruby-version: '2.7'
+          ruby-version: '2.6.10'
 
       - name: SwiftLint
         run: swiftlint lint --fix --format --path ios/*.swift --config .swiftlint.yml
