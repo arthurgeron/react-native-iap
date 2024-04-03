@@ -68,6 +68,17 @@ target 'IapExample' do
   end
 
   post_install do |installer|
+    # Fixes an issue where the build would fail if a Pod's deployment target was set to a lower version than the minimum supported version on the project
+    puts "\nChecking if the deployment targets for Pods are set to the minimum supported version of \033[33m#{min_ios_version}\033[0m or higher."
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
+        current_target_version = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+        if Gem::Version.new(current_target_version) < Gem::Version.new(min_ios_version)
+          puts "\033[33m#{target.name} deployment target of #{current_target_version} is too low. Updating...\033[0m"
+          config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = min_ios_version
+        end
+      end
+    end
     # https://github.com/facebook/react-native/blob/main/packages/react-native/scripts/react_native_pods.rb#L197-L202
     react_native_post_install(
       installer,
