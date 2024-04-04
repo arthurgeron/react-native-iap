@@ -1,3 +1,5 @@
+import Foundation
+
 class ThreadSafe<A> {
     private var _value: A
     private let queue = DispatchQueue(label: "ThreadSafe")

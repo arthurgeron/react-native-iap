@@ -1,3 +1,5 @@
+import React
+import Foundation
 import StoreKit
 
 // Only keeps latest promise, assumes older promises are not needed
